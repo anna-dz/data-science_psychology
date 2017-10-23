@@ -1,10 +1,16 @@
 
+---
+title: "Practical: Psychological therapies"
+author: Anna Dzieciol
+date: October 23, 2017
+output: github_document
+---
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 options(scipen = 999, digits = 3)
 ```
 
-# Practical: Psychological therapies
 
 We will be analysing data from *Improving Access to Psychological Therapies*, an NHS programme that provides mental health support for people with anxiety and depression. The data on service use is published on NHS Digital. 
 We will use Google Trends to see how search interest in psychological therapies is changing, and whether this is associated with changes in service use.
