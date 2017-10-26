@@ -13,13 +13,12 @@ options(scipen = 999, digits = 3)
 
 
 We will be analysing data from *Improving Access to Psychological Therapies*, an NHS programme that provides mental health support for people with anxiety and depression. The data on service use is published on NHS Digital. 
-We will use Google Trends to see how search interest in psychological therapies is changing, and whether this is associated with changes in service use.
+We will use Google Trends to see how search interest in psychological therapies is changing, and whether this is associated with changes in NHS service use.
 
 ## R basics
 
 ### Command prompt  
-The console window on the bottom of R Studio shows the command prompt. 
-> tells us that R is ready for our commands.  
+The console window on the bottom of R Studio shows the command prompt. > tells us that R is ready for our commands.  
 
 ### Help  
 To access R documentation for a fuction, type ? and a function name.  
@@ -32,6 +31,7 @@ There are also many websites with help and tips, for example Stack Overflow: htt
 
 ### Functions 
 We perform analysis by running functions on data. A lot of functions are included in core R, some are in extension packages, and we can define new functions as we analyse data. To call a function, we first type function name, and then a set of brackets which may contain some arguments. 
+
 **Example functions:**  
 
 ```{r}
@@ -59,7 +59,7 @@ To prevent this we can use `<-`, an assignement operator. Instead of prining the
 a <- 10/5
 ```
 
-To view the result, we just type `a`
+To view the result, we need to type `a`
 ```{r}
 a
 ```
@@ -92,19 +92,19 @@ What are the column names?
 names(iapt)
 ```
 
-Let's look at the data. `head()` shows the first 6 lines, `View()` opens the dataset in a new tab. Although the data looks like a spreadsheet, we can't click into it to change it - we can only modify the data vy writing code.  
+Let's look at the data. `head()` shows the first 6 lines, `View()` opens the dataset in a new tab. Although the data looks like a spreadsheet, we can't click into it to change it - we can only modify the data by writing code.  
 
 ```{r, eval = FALSE}
 head(iapt)
 View(iapt)
 ```
 
-To find out a little bit more about the data, we can use `str()`. We see the size of the dataset, the column names, and that variables are  numeric (`int`) and character (`char`).  It also gives us the first few data values.
+To find out a little bit more about the data, we can use `str()`. It shows the dimensions of the dataset (number of rows and columns), the column names, and variable classes: that variables are  numeric (`int`) and character (`char`).  It also gives us the first few data values.
 ```{r, eval = FALSE}
 str(iapt)
 ```
 
-`summary()` will show minimum, maximum and average values of each numeric variables in the dataset, as well as how many missing values `NA's` we have. 
+`summary()` will show minimum, maximum and average values of each numeric variables in the dataset, as well as how many missing values `NA's` there are. 
 ```{r, eval = FALSE}
 summary(iapt)
 ```
@@ -127,7 +127,7 @@ iapt[3,1]
 iapt[c(1, 2), 12]
 ```
 
-```{r}
+```{r, eval = FALSE}
 # Entire tenth row
 iapt[10, ]
 ```
@@ -159,7 +159,7 @@ iapt[iapt$Appointments > 500000 & iapt$SelfReferrals > 70000, 2]
 
 ### Data types
 
-We saw that the iapt dataset contains numbers and factors. Having correct data types is important, as some functions can only be performed on certain data types. Let's change the `Month` variable to a date type.  
+We saw that the `iapt` dataset contains some numeric and categorical data. Having correct data types is important, as some functions can only be performed on certain data types. Let's change the `Month` variable to a date type.  
 
 ```{r}
 iapt$Month <- as.Date(iapt$Month, format = "%Y-%m-%d")
@@ -203,21 +203,31 @@ We can also plot the data.
 ```{r}
 plot(iapt$Month, iapt$ReferralsReceived)
 ```
+
+
 To customise the plot a little bit.  
 ```{r}
-plot(iapt$Month, iapt$ReferralsReceived, xlab = "Month", ylab = "Number of referrals", ylim = c(0, 130000), col = "red", type = "l")
+plot(iapt$Month, iapt$ReferralsReceived, 
+     xlab = "Month", ylab = "Number of referrals", 
+     ylim = c(0, 130000), col = "red", type = "l")
 ```
 
 
 **2. Did the number of appointments change over time? Were there more appointments in 2016, compared to 2015?**
 
+```{r}
+# Repeat the steps above for a new variable.
+```
   
   
 **3. What types of therapies are offered by the NHS?**
 
 ```{r}
 # First, let's summarise the data a little. Total number of self help appointments
-iapt$total_self_help <- iapt$GuideSelfHelpBookApts + iapt$NonGuideSelfHelpBookApts + iapt$GuideSelfHelpCompApts + iapt$NonGuideSelfHelpCompApts
+iapt$total_self_help <- iapt$GuideSelfHelpBookApts + 
+  iapt$NonGuideSelfHelpBookApts + 
+  iapt$GuideSelfHelpCompApts + 
+  iapt$NonGuideSelfHelpCompApts
 
 # What proportion of overall appointments is each therapy type, for each month.
 iapt$total_self_help_prop <- iapt$total_self_help / iapt$Appointments
@@ -234,7 +244,7 @@ colMeans(iapt[, 3:5], na.rm = TRUE)
 
 ## Google Trends dataset
 
-We are ready to combine the iapt dataset with data from Google Trends https://trends.google.co.uk/trends/ .
+We are ready to combine the `iapt` dataset with data from Google Trends https://trends.google.co.uk/trends/ .
 
 ```{r}
 trends <- read.csv("trends.csv")

@@ -3,7 +3,7 @@ Practical: Psychological therapies
 Anna Dzieciol
 October 23, 2017
 
-We will be analysing data from *Improving Access to Psychological Therapies*, an NHS programme that provides mental health support for people with anxiety and depression. The data on service use is published on NHS Digital. We will use Google Trends to see how search interest in psychological therapies is changing, and whether this is associated with changes in service use.
+We will be analysing data from *Improving Access to Psychological Therapies*, an NHS programme that provides mental health support for people with anxiety and depression. The data on service use is published on NHS Digital. We will use Google Trends to see how search interest in psychological therapies is changing, and whether this is associated with changes in NHS service use.
 
 R basics
 --------
@@ -24,16 +24,19 @@ There are also many websites with help and tips, for example Stack Overflow: <ht
 
 ### Functions
 
-We perform analysis by running functions on data. A lot of functions are included in core R, some are in extension packages, and we can define new functions as we analyse data. To call a function, we first type function name, and then a set of brackets which may contain some arguments. **Example functions:**
+We perform analysis by running functions on data. A lot of functions are included in core R, some are in extension packages, and we can define new functions as we analyse data. To call a function, we first type function name, and then a set of brackets which may contain some arguments.
+
+**Example functions:**
 
 ``` r
 # List files in current directory
 list.files()
 ```
 
-    ## [1] "google_trends_data" "iapt.csv"           "iapt_data"         
-    ## [4] "iapt.R"             "iapt_reference"     "psych-ds.Rproj"    
-    ## [7] "trends.csv"         "tutorial.html"      "tutorial.Rmd"
+    ##  [1] "google_trends_data" "iapt.csv"           "iapt_data"         
+    ##  [4] "iapt.R"             "iapt_reference"     "psych-ds.Rproj"    
+    ##  [7] "trends.csv"         "tutorial_files"     "tutorial.md"       
+    ## [10] "tutorial.Rmd"
 
 ``` r
 # Create a vector with three elements - a series of three numbers.
@@ -66,7 +69,7 @@ To prevent this we can use `<-`, an assignement operator. Instead of prining the
 a <- 10/5
 ```
 
-To view the result, we just type `a`
+To view the result, we need to type `a`
 
 ``` r
 a
@@ -124,20 +127,20 @@ names(iapt)
     ## [31] "EmploySuppHIApts"         "CBTApts"                 
     ## [33] "IPTApts"
 
-Let's look at the data. `head()` shows the first 6 lines, `View()` opens the dataset in a new tab. Although the data looks like a spreadsheet, we can't click into it to change it - we can only modify the data vy writing code.
+Let's look at the data. `head()` shows the first 6 lines, `View()` opens the dataset in a new tab. Although the data looks like a spreadsheet, we can't click into it to change it - we can only modify the data by writing code.
 
 ``` r
 head(iapt)
 View(iapt)
 ```
 
-To find out a little bit more about the data, we can use `str()`. We see the size of the dataset, the column names, and that variables are numeric (`int`) and character (`char`). It also gives us the first few data values.
+To find out a little bit more about the data, we can use `str()`. It shows the dimensions of the dataset (number of rows and columns), the column names, and variable classes: that variables are numeric (`int`) and character (`char`). It also gives us the first few data values.
 
 ``` r
 str(iapt)
 ```
 
-`summary()` will show minimum, maximum and average values of each numeric variables in the dataset, as well as how many missing values `NA's` we have.
+`summary()` will show minimum, maximum and average values of each numeric variables in the dataset, as well as how many missing values `NA's` there are.
 
 ``` r
 summary(iapt)
@@ -171,25 +174,6 @@ iapt[c(1, 2), 12]
 # Entire tenth row
 iapt[10, ]
 ```
-
-    ##    GroupType      Month ReferralsReceived SelfReferrals Appointments
-    ## 10   England 2015-10-01            121906         58496       495406
-    ##    NotCaseness Recovery Improvement Deterioration NoReliableChange
-    ## 10        3827    19160       28358          3024            13257
-    ##    ReliableRecovery GuideSelfHelpBookApts NonGuideSelfHelpBookApts
-    ## 10            18303                 53479                    14242
-    ##    GuideSelfHelpCompApts NonGuideSelfHelpCompApts BehavActLIApts
-    ## 10                  5450                     1378           5466
-    ##    StructPhysActApts AntePostNatalCounselApts PsychoEducPeerSuppApts
-    ## 10               297                      130                  15987
-    ##    OtherLIApts EmploySuppLIApts AppRelaxApts BehavActHIApts
-    ## 10       43987              172          195            900
-    ##    CoupleTherapyDepApts CollabCareApts CounselDepApts BPDApts
-    ## 10                 1230            956          40739    1513
-    ##    EyeMoveDesenReproApts MindfulApts OtherHIApts EmploySuppHIApts CBTApts
-    ## 10                  3356        2006       26071               56  120583
-    ##    IPTApts
-    ## 10    3795
 
 ``` r
 # 5th to 12th element of 7th row
@@ -234,7 +218,7 @@ iapt[iapt$Appointments > 500000 & iapt$SelfReferrals > 70000, 2]
 
 ### Data types
 
-We saw that the iapt dataset contains numbers and factors. Having correct data types is important, as some functions can only be performed on certain data types. Let's change the `Month` variable to a date type.
+We saw that the `iapt` dataset contains some numeric and categorical data. Having correct data types is important, as some functions can only be performed on certain data types. Let's change the `Month` variable to a date type.
 
 ``` r
 iapt$Month <- as.Date(iapt$Month, format = "%Y-%m-%d")
@@ -281,21 +265,32 @@ We can also plot the data.
 plot(iapt$Month, iapt$ReferralsReceived)
 ```
 
-![](tutorial_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-27-1.png) To customise the plot a little bit.
+![](tutorial_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-27-1.png)
+
+To customise the plot a little bit.
 
 ``` r
-plot(iapt$Month, iapt$ReferralsReceived, xlab = "Month", ylab = "Number of referrals", ylim = c(0, 130000), col = "red", type = "l")
+plot(iapt$Month, iapt$ReferralsReceived, 
+     xlab = "Month", ylab = "Number of referrals", 
+     ylim = c(0, 130000), col = "red", type = "l")
 ```
 
 ![](tutorial_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-28-1.png)
 
 **2. Did the number of appointments change over time? Were there more appointments in 2016, compared to 2015?**
 
+``` r
+# Repeat the steps above for a new variable.
+```
+
 **3. What types of therapies are offered by the NHS?**
 
 ``` r
 # First, let's summarise the data a little. Total number of self help appointments
-iapt$total_self_help <- iapt$GuideSelfHelpBookApts + iapt$NonGuideSelfHelpBookApts + iapt$GuideSelfHelpCompApts + iapt$NonGuideSelfHelpCompApts
+iapt$total_self_help <- iapt$GuideSelfHelpBookApts + 
+  iapt$NonGuideSelfHelpBookApts + 
+  iapt$GuideSelfHelpCompApts + 
+  iapt$NonGuideSelfHelpCompApts
 
 # What proportion of overall appointments is each therapy type, for each month.
 iapt$total_self_help_prop <- iapt$total_self_help / iapt$Appointments
@@ -327,7 +322,7 @@ colMeans(iapt[, 3:5], na.rm = TRUE)
 Google Trends dataset
 ---------------------
 
-We are ready to combine the iapt dataset with data from Google Trends <https://trends.google.co.uk/trends/> .
+We are ready to combine the `iapt` dataset with data from Google Trends <https://trends.google.co.uk/trends/> .
 
 ``` r
 trends <- read.csv("trends.csv")
@@ -376,7 +371,7 @@ dat <- merge(iapt, monthly_trends, by.x = "Month", by.y = "month")
 plot(dat$ReferralsReceived, dat$counselling)
 ```
 
-![](tutorial_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-34-1.png)
+![](tutorial_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-35-1.png)
 
 Let's do a correlation test to see if this effect is statistically significant.
 
