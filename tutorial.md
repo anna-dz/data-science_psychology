@@ -265,7 +265,9 @@ We can also plot the data.
 plot(iapt$Month, iapt$ReferralsReceived)
 ```
 
-![](tutorial_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-27-1.png) !(figures/plot1.png)
+![](tutorial_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-27-1.png)
+
+![](https://github.com/anna-dz/data-science_psychology/blob/master/figures/plot1.png)
 
 To customise the plot a little bit.
 
@@ -277,7 +279,7 @@ plot(iapt$Month, iapt$ReferralsReceived,
 
 ![](tutorial_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-28-1.png)
 
-!(<https://github.com/anna-dz/data-science_psychology/blob/master/figures/plot2.png>)
+![](https://github.com/anna-dz/data-science_psychology/blob/master/figures/plot2.png)
 
 **2. Did the number of appointments change over time? Were there more appointments in 2016, compared to 2015?**
 
@@ -373,7 +375,7 @@ dat <- merge(iapt, monthly_trends, by.x = "Month", by.y = "month")
 plot(dat$ReferralsReceived, dat$counselling)
 ```
 
-![](tutorial_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-35-1.png) !(<https://github.com/anna-dz/data-science_psychology/blob/master/figures/plot3.png>)
+![](tutorial_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-35-1.png) ![](https://github.com/anna-dz/data-science_psychology/blob/master/figures/plot3.png)
 
 Let's do a correlation test to see if this effect is statistically significant.
 
