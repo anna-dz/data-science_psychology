@@ -202,7 +202,10 @@ Was the total number of referrals in 2016 greater than in 2015?
 We can also plot the data.  
 ```{r}
 plot(iapt$Month, iapt$ReferralsReceived)
+
+
 ```
+!(figures/plot1.png)
 
 
 To customise the plot a little bit.  
@@ -210,8 +213,10 @@ To customise the plot a little bit.
 plot(iapt$Month, iapt$ReferralsReceived, 
      xlab = "Month", ylab = "Number of referrals", 
      ylim = c(0, 130000), col = "red", type = "l")
+
 ```
 
+!(https://github.com/anna-dz/data-science_psychology/blob/master/figures/plot2.png)
 
 **2. Did the number of appointments change over time? Were there more appointments in 2016, compared to 2015?**
 
@@ -291,7 +296,9 @@ dat <- merge(iapt, monthly_trends, by.x = "Month", by.y = "month")
 
 ```{r}
 plot(dat$ReferralsReceived, dat$counselling)
+
 ```
+!(https://github.com/anna-dz/data-science_psychology/blob/master/figures/plot3.png)
 
 Let's do a correlation test to see if this effect is statistically significant.
 

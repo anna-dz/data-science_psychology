@@ -33,10 +33,10 @@ We perform analysis by running functions on data. A lot of functions are include
 list.files()
 ```
 
-    ##  [1] "google_trends_data" "iapt.csv"           "iapt_data"         
-    ##  [4] "iapt.R"             "iapt_reference"     "psych-ds.Rproj"    
-    ##  [7] "trends.csv"         "tutorial_files"     "tutorial.md"       
-    ## [10] "tutorial.Rmd"
+    ##  [1] "figures"            "google_trends_data" "iapt.csv"          
+    ##  [4] "iapt_data"          "iapt.R"             "iapt_reference"    
+    ##  [7] "psych-ds.Rproj"     "trends.csv"         "tutorial_files"    
+    ## [10] "tutorial.md"        "tutorial.Rmd"
 
 ``` r
 # Create a vector with three elements - a series of three numbers.
@@ -265,7 +265,7 @@ We can also plot the data.
 plot(iapt$Month, iapt$ReferralsReceived)
 ```
 
-![](tutorial_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-27-1.png)
+![](tutorial_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-27-1.png) !(figures/plot1.png)
 
 To customise the plot a little bit.
 
@@ -276,6 +276,8 @@ plot(iapt$Month, iapt$ReferralsReceived,
 ```
 
 ![](tutorial_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-28-1.png)
+
+!(<https://github.com/anna-dz/data-science_psychology/blob/master/figures/plot2.png>)
 
 **2. Did the number of appointments change over time? Were there more appointments in 2016, compared to 2015?**
 
@@ -371,7 +373,7 @@ dat <- merge(iapt, monthly_trends, by.x = "Month", by.y = "month")
 plot(dat$ReferralsReceived, dat$counselling)
 ```
 
-![](tutorial_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-35-1.png)
+![](tutorial_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-35-1.png) !(<https://github.com/anna-dz/data-science_psychology/blob/master/figures/plot3.png>)
 
 Let's do a correlation test to see if this effect is statistically significant.
 
